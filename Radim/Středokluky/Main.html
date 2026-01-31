@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rodinný dům na prodej - Středokluky</title>
+    <title>Parcela na prodej - Středokluky</title>
     <style>
         /* --- ZÁKLADNÍ NASTAVENÍ (SPOLEČNÉ) --- */
         :root {
@@ -132,20 +132,52 @@
         .stat-box span { font-size: 1.5rem; font-weight: bold; display: block; margin-top: 5px; }
 
         /* Galerie */
+        /* --- NOVÁ VELKÁ GALERIE --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            /* Na PC budou 2 velké fotky vedle sebe (každá 50% šířky) */
+            grid-template-columns: 1fr 1fr;
+            gap: 30px; /* Větší mezery mezi fotkami */
         }
-        .gallery-item {
-            background-color: #ddd;
-            height: 250px;
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            color: #666; font-weight: bold; overflow: hidden;
-        }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; } /* Pro skutečné fotky */
 
+        .gallery-item {
+            /* Zrušíme šedé pozadí, ať je vidět jen fotka */
+            background-color: transparent;
+
+            /* ZVĚTŠENÍ: Nastavíme výšku na 500px (nebo i víc) */
+            height: 500px;
+
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15); /* Hezčí stín */
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fotka vyplní celý box a ořízne se, aby seděla */
+            display: block;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px); /* Jemné nadzvednutí při najetí */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* --- ÚPRAVA PRO MOBIL (ABY BYLY FOTKY PŘES CELOU ŠÍŘKU) --- */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                /* Na mobilu jen 1 fotka na řádek = maximální velikost */
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .gallery-item {
+                /* Na mobilu trochu menší výška, ať se to vejde na displej */
+                height: 350px;
+            }
+        }
         /* Kontakt tlačítka */
         .contact-box {
             background: #f4f4f4;
@@ -278,23 +310,14 @@
             <div class="hero-stats">
                 <div class="stat-box">
                     <h3>Celková plocha</h3>
-                    <span>1900 m²</span>
-                </div>
-
-                <div class="stat-box">
-                    <h3>Užitná plocha</h3>
-                    <span>1400 m²</span>
+                    <span>1770 m²</span>
                 </div>
 
                 <div class="stat-box">
                     <h3>Cena</h3>
-                    <span>12 500 000 Kč</span>
+                    <span>6 500 000 Kč</span>
                 </div>
 
-                <div class="stat-box">
-                    <h3>Dispozice</h3>
-                    <span>4+kk</span>
-                    </div>
             </div>
         </section>
 
@@ -304,8 +327,12 @@
             <h2>Fotogalerie</h2>
             <p>Prohlédněte si vizualizaci a aktuální stav parcely.</p>
             <div class="gallery-grid">
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
+                <div class="gallery-item">
+                    <img src="8.1_edit.png" alt = "Velikost pozemku">
+                </div>
+                <div class="gallery-item">
+                    <img src="9.1_edit.png" alt= "Okoli pozemku">
+                </div>
                 <div class="gallery-item"></div>
                 <div class="gallery-item"></div>
                 <div class="gallery-item"></div>
@@ -332,6 +359,11 @@
 
         <section id="blizsi-info">
             <h2>Bližší informace</h2>
+            <div style="margin-bottom: 20px;">
+                <a href="https://www.stredokluky.cz" target="_blank" class="btn" style="background-color: #555; font-size: 0.9rem; padding: 10px 20px;">
+                    🌐 Navštívit web obce
+                 </a>
+            </div>
             <p>Pozemek je dle územního plánu určen k výstavbě rodinného domu. Na hranici pozemku jsou přivedeny veškeré inženýrské sítě (vodovod, kanalizace, elektřina, plyn). Příjezd je zajištěn po obecní asfaltové komunikaci.</p>
             <p>Parcela je oplocená, udržovaná a připravená k okamžité výstavbě.</p>
         </section>
@@ -347,6 +379,7 @@
         </section>
 
     </main>
+
 
 </body>
 </html>
