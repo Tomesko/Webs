@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 # 1. Nastavení stránky Streamlitu
 st.set_page_config(layout="wide", page_title="Pozemek Středokluky | Radomil Hrabě")
 
-# 2. Skrytí výchozího designu Streamlitu
+# 2. Skrytí výchozího designu Streamlitu (okraje, hlavička, patička)
 st.markdown("""
     <style>
         .block-container { 
@@ -20,7 +20,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. HTML Kód s VÝSUVNÝM LEVÝM MENU pro mobily
+# 3. Kompletní HTML kód stránky
 html_code = """
 <!DOCTYPE html>
 <html lang="cs">
@@ -35,6 +35,7 @@ html_code = """
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* --- BAREVNÁ PALETA --- */
         :root {
             --primary-green: #1a4d2e;
             --accent-gold: #c6a87c;
@@ -117,6 +118,7 @@ html_code = """
         }
 
         header.hero {
+            /* Místo 'pozemek-hero.jpg' dej svou fotku, až ji budeš mít */
             background: linear-gradient(rgba(26, 77, 46, 0.85), rgba(26, 77, 46, 0.6)), url('pozemek-hero.jpg');
             background-size: cover; background-position: center; background-color: #1a4d2e;
             color: white; min-height: 80vh; display: flex; flex-direction: column; justify-content: center;
@@ -172,7 +174,7 @@ html_code = """
             .menu-toggle-btn {
                 display: block; position: fixed; top: 15px; left: 15px;
                 background-color: var(--primary-green); color: white;
-                padding: 10px 15px; border-radius: 8px; z-index: 2001; /* Vždy nad vším */
+                padding: 10px 15px; border-radius: 8px; z-index: 2001;
                 cursor: pointer; font-weight: bold; font-family: 'Montserrat', sans-serif;
                 box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2);
             }
@@ -180,14 +182,14 @@ html_code = """
             /* Boční panel se schová doleva mimo obrazovku */
             nav.sidebar {
                 width: 280px; left: -300px; /* Skryto */
-                transition: left 0.4s ease; /* Plynulá animace vyjetí */
-                padding-top: 5rem; /* Místo pro tlačítko nahoře */
+                transition: left 0.4s ease;
+                padding-top: 5rem;
             }
 
-            /* Když někdo klikne na tlačítko (zaškrtne skrytý checkbox), panel vyjede */
+            /* Vyjetí panelu */
             #menu-toggle:checked ~ nav.sidebar { left: 0; }
 
-            /* Ztmavení zbytku obrazovky při otevřeném menu */
+            /* Ztmavení zbytku obrazovky */
             #menu-toggle:checked ~ .overlay {
                 display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
                 background: rgba(0,0,0,0.6); z-index: 1999; cursor: pointer;
@@ -195,13 +197,11 @@ html_code = """
 
             main.content { margin-left: 0; width: 100%; }
 
-            /* Vrátíme menu pod sebe, zrušíme vodorovné scrollování */
             .nav-links { display: block; overflow-x: visible; }
             .nav-links li { margin-bottom: 1.5rem; }
             .nav-links a { font-size: 1.1rem; padding: 0; background: transparent; border: none; white-space: normal; }
             .nav-links a:active { background: transparent; color: var(--accent-gold); }
             
-            /* Zobrazíme kontaktní vizitku i v mobilním menu */
             .contact-mini { display: block; margin-top: 2rem; }
 
             /* Design obsahu pro mobil */
@@ -224,7 +224,9 @@ html_code = """
 
     <input type="checkbox" id="menu-toggle">
     <label for="menu-toggle" class="menu-toggle-btn">☰ MENU</label>
-    <label for="menu-toggle" class="overlay"></label> <nav class="sidebar">
+    <label for="menu-toggle" class="overlay"></label>
+
+    <nav class="sidebar">
         <div class="brand">
             Pod Sedličkami <span>STŘEDOKLUKY</span>
         </div>
@@ -401,8 +403,37 @@ html_code = """
         </section>
 
     </main>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // 1. Zabránit Streamlitu v refreshování stránky
+                e.preventDefault(); 
+                
+                // 2. Získat cíl odkazu (např. "#kontakt") a najít ho na stránce
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // 3. Plynulý odjezd na dané místo
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+
+                // 4. Pokud jsme na mobilu a vyjelo menu, tak ho po kliknutí zavřeme
+                const menuToggle = document.getElementById('menu-toggle');
+                if (menuToggle && menuToggle.checked) {
+                    menuToggle.checked = false;
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
 """
 
-components.html(html_code, height=900, scrolling=True)
+# 4. Vykreslení kódu. Výška zajišťuje scrollovatelné okno uvnitř Streamlitu.
+components.html(html_code, height=1000, scrolling=True)
