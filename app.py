@@ -66,8 +66,8 @@ html_code = """
 
         /* --- SKRYTÉ PRVKY PRO MOBILNÍ MENU --- */
         #menu-toggle { display: none; }
-        .menu-toggle-btn { display: none; }
         .overlay { display: none; }
+        .mobile-header { display: none; } /* Zobrazí se jen na mobilu */
 
         /* --- LEVÝ PANEL (PC) --- */
         nav.sidebar {
@@ -118,7 +118,6 @@ html_code = """
         }
 
         header.hero {
-            /* Místo 'pozemek-hero.jpg' dej svou fotku, až ji budeš mít */
             background: linear-gradient(rgba(26, 77, 46, 0.85), rgba(26, 77, 46, 0.6)), url('pozemek-hero.jpg');
             background-size: cover; background-position: center; background-color: #1a4d2e;
             color: white; min-height: 80vh; display: flex; flex-direction: column; justify-content: center;
@@ -165,25 +164,45 @@ html_code = """
         ul.features-list li strong { color: var(--primary-green); margin-right: 10px; }
 
         /* =========================================
-           MOBILNÍ VERZE - VÝSUVNÉ MENU ZLEVA
+           MOBILNÍ VERZE - VÝSUVNÉ MENU S FIXNÍ LIŠTOU
            ========================================= */
         @media (max-width: 900px) {
-            body { flex-direction: column; }
-            
-            /* Tlačítko pro otevření menu (hamburger) */
-            .menu-toggle-btn {
-                display: block; position: fixed; top: 15px; left: 15px;
-                background-color: var(--primary-green); color: white;
-                padding: 10px 15px; border-radius: 8px; z-index: 2001;
-                cursor: pointer; font-weight: bold; font-family: 'Montserrat', sans-serif;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2);
+            body { 
+                flex-direction: column; 
+                padding-top: 60px; /* Vytvoří místo pro novou fixní lištu */
             }
+            
+            /* --- NOVÁ FIXNÍ HORNÍ LIŠTA PRO MOBIL --- */
+            .mobile-header {
+                display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+                background-color: var(--primary-green);
+                align-items: center; justify-content: space-between;
+                padding: 0 20px; z-index: 2001; /* Drží se nahoře za všech okolností */
+                box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            }
+
+            .mobile-header-brand {
+                font-family: 'Montserrat', sans-serif; font-weight: 700;
+                color: var(--accent-gold); font-size: 1.1rem; letter-spacing: 2px;
+                text-transform: uppercase;
+            }
+
+            /* Tlačítko hamburger uvnitř lišty */
+            .menu-toggle-btn {
+                display: block; cursor: pointer;
+                color: white; font-weight: bold; font-family: 'Montserrat', sans-serif;
+                background: rgba(255,255,255,0.1); padding: 8px 15px;
+                border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);
+                transition: 0.3s;
+            }
+            .menu-toggle-btn:active { background: var(--accent-gold); color: #111; }
 
             /* Boční panel se schová doleva mimo obrazovku */
             nav.sidebar {
                 width: 280px; left: -300px; /* Skryto */
                 transition: left 0.4s ease;
-                padding-top: 5rem;
+                padding-top: 3rem; /* Odsazení zhora uvnitř panelu */
+                z-index: 2002; /* Musí být nad lištou, když vyjede */
             }
 
             /* Vyjetí panelu */
@@ -192,7 +211,7 @@ html_code = """
             /* Ztmavení zbytku obrazovky */
             #menu-toggle:checked ~ .overlay {
                 display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0,0,0,0.6); z-index: 1999; cursor: pointer;
+                background: rgba(0,0,0,0.6); z-index: 2001; cursor: pointer;
             }
 
             main.content { margin-left: 0; width: 100%; }
@@ -205,7 +224,7 @@ html_code = """
             .contact-mini { display: block; margin-top: 2rem; }
 
             /* Design obsahu pro mobil */
-            header.hero { padding: 6rem 1.5rem 4rem 1.5rem; text-align: center; min-height: 50vh; align-items: center; }
+            header.hero { padding: 4rem 1.5rem; text-align: center; min-height: 50vh; align-items: center; }
             header.hero h1 { font-size: 2.2rem; }
             .hero-stats { margin-top: -30px; padding: 0 1.5rem; grid-template-columns: 1fr 1fr; gap: 15px; position: relative; z-index: 10; }
             .stat-box { padding: 1.5rem 1rem; }
@@ -223,7 +242,12 @@ html_code = """
 <body>
 
     <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="menu-toggle-btn">☰ MENU</label>
+    
+    <div class="mobile-header">
+        <div class="mobile-header-brand">Středokluky</div>
+        <label for="menu-toggle" class="menu-toggle-btn">☰ MENU</label>
+    </div>
+
     <label for="menu-toggle" class="overlay"></label>
 
     <nav class="sidebar">
@@ -410,12 +434,12 @@ html_code = """
                 // 1. Zabránit Streamlitu v refreshování stránky
                 e.preventDefault(); 
                 
-                // 2. Získat cíl odkazu (např. "#kontakt") a najít ho na stránce
+                // 2. Získat cíl odkazu
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                    // 3. Plynulý odjezd na dané místo
+                    // 3. Plynulý odjezd
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
@@ -435,5 +459,5 @@ html_code = """
 </html>
 """
 
-# 4. Vykreslení kódu. Výška zajišťuje scrollovatelné okno uvnitř Streamlitu.
-components.html(html_code, height=1000, scrolling=True)
+# 4. Vykreslení kódu.
+components.html(html_code, height=900, scrolling=True)
