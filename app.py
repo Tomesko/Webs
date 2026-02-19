@@ -1,13 +1,12 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. Nastavení stránky Streamlitu na celou šířku
+# Nastavení stránky Streamlitu na celou šířku
 st.set_page_config(layout="wide", page_title="Pozemek Středokluky | Radomil Hrabě")
 
-# 2. Skrytí veškerého výchozího designu Streamlitu (okraje, hlavička, patička)
+# Skrytí veškerého výchozího designu Streamlitu
 st.markdown("""
     <style>
-        /* Odstranění okrajů a maximalizace šířky */
         .block-container { 
             padding-top: 0rem !important; 
             padding-bottom: 0rem !important; 
@@ -15,15 +14,13 @@ st.markdown("""
             padding-right: 0rem !important; 
             max-width: 100% !important; 
         }
-        /* Skrytí horní lišty a patičky Streamlitu */
         header { display: none !important; }
         footer { display: none !important; }
-        /* Odstranění mezer kolem samotného iframu */
         iframe { border: none; display: block; }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Tvůj kompletní HTML kód
+# Kompletní HTML kód s vyladěnou responzivitou pro mobily
 html_code = """
 <!DOCTYPE html>
 <html lang="cs">
@@ -67,7 +64,7 @@ html_code = """
             color: var(--primary-green);
         }
 
-        /* --- LEVÝ PANEL --- */
+        /* --- LEVÝ PANEL (PC VERZE) --- */
         nav.sidebar {
             width: var(--sidebar-width);
             background: linear-gradient(180deg, var(--primary-green) 0%, #143d24 100%);
@@ -112,7 +109,7 @@ html_code = """
         }
         .nav-links a:hover::before { opacity: 1; }
 
-        /* Kontaktní karta v liště */
+        /* Kontaktní karta v liště (PC) */
         .contact-mini {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(5px);
@@ -125,7 +122,7 @@ html_code = """
         .contact-mini p { color: #eee; font-size: 0.9rem; margin-bottom: 2px; font-weight: 600; }
         .contact-mini small { color: #aaa; font-size: 0.8rem; }
 
-        /* --- HLAVNÍ OBSAH --- */
+        /* --- HLAVNÍ OBSAH (PC VERZE) --- */
         main.content {
             margin-left: var(--sidebar-width);
             width: calc(100% - var(--sidebar-width));
@@ -158,6 +155,7 @@ html_code = """
             font-size: 0.9rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(198, 168, 124, 0.4);
+            text-align: center;
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(198, 168, 124, 0.6); background-color: white; }
 
@@ -207,30 +205,76 @@ html_code = """
         }
         ul.features-list li strong { color: var(--primary-green); margin-right: 10px; }
 
-        /* MOBIL */
+        /* =========================================
+           VYLADĚNÁ MOBILNÍ VERZE
+           ========================================= */
         @media (max-width: 900px) {
-            body { flex-direction: column; }
+            body { 
+                flex-direction: column; 
+                padding-top: 120px; /* Vytvoří místo pro fixní menu nahoře */
+            }
+            
+            /* Navigace nahoře (přilepená) */
             nav.sidebar {
-                width: 100%; height: auto; position: sticky; top: 0; padding: 15px; flex-direction: row; align-items: center; justify-content: space-between;
+                width: 100%; height: auto; position: fixed; top: 0; left: 0;
+                padding: 15px 15px 10px 15px; flex-direction: column; align-items: center; justify-content: center;
                 background: var(--primary-green);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                z-index: 9999; /* Vždy nahoře */
             }
-            .brand { margin: 0; font-size: 1.2rem; border: none; padding: 0; }
-            .brand span { display: none; }
-            .nav-links, .contact-mini { display: none; }
+            .brand { margin: 0 0 10px 0; font-size: 1.4rem; border: none; padding: 0; text-align: center; }
+            .brand span { display: inline-block; margin-left: 8px; font-size: 0.8rem; }
+            .contact-mini { display: none; }
 
+            /* Interaktivní posuvné menu na mobilu */
             .nav-links {
-                display: flex; position: absolute; top: 100%; left: 0; width: 100%; background: #143d24; overflow-x: auto; padding: 10px; gap: 10px;
+                display: flex; flex-direction: row; width: 100%; 
+                overflow-x: auto; padding-bottom: 5px; gap: 10px;
+                -webkit-overflow-scrolling: touch; /* Plynulý scroll na iPhonech */
+                scrollbar-width: none; /* Skryje lištu ve Firefoxu */
             }
-            .nav-links a { font-size: 0.8rem; white-space: nowrap; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 15px; }
+            .nav-links::-webkit-scrollbar { display: none; } /* Skryje lištu v Chrome/Safari */
+            
+            .nav-links li { margin: 0; flex-shrink: 0; } /* Tlačítka se nebudou mačkat */
+            .nav-links a { 
+                font-size: 0.85rem; white-space: nowrap; 
+                background: rgba(255,255,255,0.15); border-radius: 20px; 
+                padding: 8px 16px; border: 1px solid rgba(255,255,255,0.05);
+            }
             .nav-links a::before { display: none; }
+            .nav-links a:active { background: var(--accent-gold); color: #111; }
+
+            /* Odsazení od fixního menu při kliknutí na odkaz */
+            section { scroll-margin-top: 140px; padding: 3rem 1.5rem; }
 
             main.content { margin-left: 0; width: 100%; }
-            header.hero { padding: 4rem 1.5rem; text-align: center; min-height: 60vh; }
+            
+            /* Úvodní sekce mobil */
+            header.hero { 
+                padding: 4rem 1.5rem; text-align: center; 
+                min-height: 50vh; align-items: center;
+            }
             header.hero h1 { font-size: 2.2rem; }
-            .hero-stats { margin-top: 20px; padding: 0 1.5rem; grid-template-columns: 1fr; position: static; }
-            section { padding: 3rem 1.5rem; }
+            header.hero p.lead { font-size: 1.1rem; }
+            
+            /* Statistiky mobil - mřížka 2x2 místo nudle */
+            .hero-stats { 
+                margin-top: -30px; padding: 0 1.5rem; 
+                grid-template-columns: 1fr 1fr; gap: 15px; 
+            }
+            .stat-box { padding: 1.5rem 1rem; }
+            .stat-box h3 { font-size: 0.7rem; }
+            .stat-box span { font-size: 1.4rem; }
+            
             .project-card { flex-direction: column; }
-            .gallery-grid { grid-template-columns: 1fr; }
+            .project-info { padding: 2rem 1.5rem; }
+            .project-visual { min-height: 200px; }
+
+            /* Seznamy - zalomení textu */
+            ul.features-list li { flex-direction: column; align-items: flex-start; }
+            ul.features-list li strong { margin-bottom: 5px; }
+
+            .gallery-grid { grid-template-columns: 1fr; gap: 15px; }
             .gallery-item { height: 250px; }
         }
     </style>
@@ -239,8 +283,7 @@ html_code = """
 
     <nav class="sidebar">
         <div class="brand">
-            Pod Sedličkami
-            <span>STŘEDOKLUKY</span>
+            Pod Sedličkami <span>STŘEDOKLUKY</span>
         </div>
 
         <ul class="nav-links">
@@ -419,6 +462,5 @@ html_code = """
 </html>
 """
 
-# 4. Vykreslení kódu. Výška (height) určí velikost iframe "okna",
-# ve kterém se bude uživatel pohybovat (scrollovat).
+# Vykreslení
 components.html(html_code, height=900, scrolling=True)
