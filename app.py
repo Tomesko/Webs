@@ -27,7 +27,7 @@ html_code = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Exkluzivní stavební pozemek 1378 m² ve Středoklukách. Projekt domu v ceně.">
+    <meta name="description" content="Exkluzivní stavební pozemek 1378 m² ve Středoklukách u Prahy. Projekt rodinného domu v ceně.">
     <title>Pozemek Středokluky | Radomil Hrabě</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,7 +67,7 @@ html_code = """
         /* --- SKRYTÉ PRVKY PRO MOBILNÍ MENU --- */
         #menu-toggle { display: none; }
         .overlay { display: none; }
-        .mobile-header { display: none; } 
+        .mobile-header { display: none; }
 
         /* --- LEVÝ PANEL (PC) --- */
         nav.sidebar {
@@ -167,16 +167,16 @@ html_code = """
            MOBILNÍ VERZE
            ========================================= */
         @media (max-width: 900px) {
-            body { 
-                flex-direction: column; 
+            body {
+                flex-direction: column;
                 padding-top: 60px;
             }
-            
+
             .mobile-header {
                 display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 60px;
                 background-color: var(--primary-green);
                 align-items: center; justify-content: space-between;
-                padding: 0 20px; z-index: 2001; 
+                padding: 0 20px; z-index: 2001;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             }
 
@@ -196,10 +196,10 @@ html_code = """
             .menu-toggle-btn:active { background: var(--accent-gold); color: #111; }
 
             nav.sidebar {
-                width: 280px; left: -300px; 
+                width: 280px; left: -300px;
                 transition: left 0.4s ease;
-                padding-top: 3rem; 
-                z-index: 2002; 
+                padding-top: 3rem;
+                z-index: 2002;
             }
 
             #menu-toggle:checked ~ nav.sidebar { left: 0; }
@@ -215,7 +215,7 @@ html_code = """
             .nav-links li { margin-bottom: 1.5rem; }
             .nav-links a { font-size: 1.1rem; padding: 0; background: transparent; border: none; white-space: normal; }
             .nav-links a:active { background: transparent; color: var(--accent-gold); }
-            
+
             .contact-mini { display: block; margin-top: 2rem; }
 
             header.hero { padding: 4rem 1.5rem; text-align: center; min-height: 50vh; align-items: center; }
@@ -236,7 +236,7 @@ html_code = """
 <body>
 
     <input type="checkbox" id="menu-toggle">
-    
+
     <div class="mobile-header">
         <div class="mobile-header-brand">Středokluky</div>
         <label for="menu-toggle" class="menu-toggle-btn">☰ MENU</label>
@@ -259,9 +259,9 @@ html_code = """
         </ul>
 
         <div class="contact-mini">
-            <h4>Váš makléř</h4>
+            <h4>Váš realiirní makléř</h4>
             <p>Radomil Hrabě</p>
-            <small>Výhradní zastoupení</small>
+            <small>Exkluzivní zastoupení</small>
             <p style="margin-top: 5px; color: var(--accent-gold); font-weight: bold;">+420 603 306 035</p>
             <p style="margin-top: 5px; font-size: 0.8rem;">
                 <a href="mailto:radomil.hrabe@outlook.com?subject=Zájem%20o%20pozemek%20Středokluky" style="color: #eee; padding: 0; display: inline; font-weight: normal; text-decoration: underline;">radomil.hrabe@outlook.com</a>
@@ -272,8 +272,8 @@ html_code = """
     <main class="content">
 
         <header id="uvod" class="hero">
-            <h1>Stavební pozemek 1 378 m²<br>s projektem domu</h1>
-            <p class="lead">Exkluzivní nabídka ve Středoklukách. Klid, soukromí a připravenost k výstavbě.</p>
+            <h1>Stavební pozemek 1 378 m²<br>s projektem rodinného domu</h1>
+            <p class="lead">Exkluzivní nabídka ve Středoklukách u Prahy. Klid, soukromí a připravenost k výstavbě.</p>
             <div>
                 <a href="#kontakt" class="btn">Sjednat prohlídku</a>
             </div>
@@ -299,7 +299,7 @@ html_code = """
         </div>
 
         <section id="projekt">
-            <h2>Projekt domu v ceně</h2>
+            <h2>Projekt rodinného domu v ceně</h2>
             <p>Neztrácejte čas papírováním. Součástí prodeje je exkluzivní projekt moderního rodinného domu 5+kk, který je navržen přímo pro tuto parcelu.</p>
 
             <div class="project-card">
@@ -415,11 +415,11 @@ html_code = """
                 </div>
 
                 <h3 style="color: var(--primary-green); margin-bottom: 5px;">Radomil Hrabě</h3>
-                <p style="margin-bottom: 5px; font-weight: 600;">Soukromý makléř</p>
-                <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Výhradní zastoupení</p>
+                <p style="margin-bottom: 5px; font-weight: 600;">Soukromý realitní makléř</p>
+                <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Exkluzivní zastoupení</p>
 
-                <a href="tel:+420603306035" class="btn" style="width: 100%;">📞 +420 603 306 035</a>
-                
+                <a href="tel:+420727928276" class="btn" style="width: 100%;">📞 +420 603 306 035</a>
+
                 <a href="mailto:radomil.hrabe@outlook.com?subject=Zájem%20o%20pozemek%20Středokluky" style="display: block; margin-top: 15px; color: #555; text-decoration: underline;">
                     Napsat e-mail (radomil.hrabe@outlook.com)
                 </a>
@@ -431,10 +431,10 @@ html_code = """
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault(); 
+                e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-                
+
                 if (targetElement) {
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
@@ -456,4 +456,5 @@ html_code = """
 
 # 4. Vykreslení kódu.
 components.html(html_code, height=900, scrolling=True)
+
 
