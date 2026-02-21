@@ -1,26 +1,34 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import base64
+import os
 
 # 1. Nastavení stránky Streamlitu
 st.set_page_config(layout="wide", page_title="Pozemek Středokluky | Radomil Hrabě")
 
-# 2. Skrytí výchozího designu Streamlitu (okraje, hlavička, patička)
+# 2. Skrytí výchozího designu Streamlitu
 st.markdown("""
     <style>
-        .block-container { 
-            padding-top: 0rem !important; 
-            padding-bottom: 0rem !important; 
-            padding-left: 0rem !important; 
-            padding-right: 0rem !important; 
-            max-width: 100% !important; 
-        }
+        .block-container { padding: 0 !important; max-width: 100% !important; }
         header { display: none !important; }
         footer { display: none !important; }
         iframe { border: none; display: block; }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Kompletní HTML kód stránky
+# 3. Funkce pro načtení obrázků do formátu Base64 (aby je Streamlit viděl)
+def nacti_fotku(cesta):
+    if os.path.exists(cesta):
+        with open(cesta, "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        ext = cesta.split('.')[-1].lower()
+        mime = f"image/{ext}"
+        if ext == "jpg": mime = "image/jpeg"
+        return f"data:{mime};base64,{data}"
+    # Pokud se fotka ve složce nenajde, vrátí to původní text, aby kód nespadl
+    return cesta
+
+# 4. Tvůj kompletní HTML kód
 html_code = """
 <!DOCTYPE html>
 <html lang="cs">
@@ -35,6 +43,20 @@ html_code = """
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* Nastavení samotného rámečku (kontejneru) */
+        .project-visual {
+        flex: 1; /* Rámeček zabere správnou polovinu karty */
+        background: #eee; /* Kdyby se fotka nenačetla, bude tam šedé pozadí */
+        overflow: hidden; /* DŮLEŽITÉ: Cokoliv přečuhuje ven, se nekompromisně odřízne */
+        }
+
+        /* Nastavení samotné fotky uvnitř */
+        .project-visual img {
+         width: 100%;  /* Roztáhne fotku na celou šířku rámečku */
+         height: 100%; /* Roztáhne fotku na celou výšku rámečku */
+         object-fit: cover; /* TOHLE JE TO KOUZLO */
+        }
+
         /* --- BAREVNÁ PALETA --- */
         :root {
             --primary-green: #1a4d2e;
@@ -259,7 +281,7 @@ html_code = """
         </ul>
 
         <div class="contact-mini">
-            <h4>Váš realiirní makléř</h4>
+            <h4>Váš realitní makléř</h4>
             <p>Radomil Hrabě</p>
             <small>Exkluzivní zastoupení</small>
             <p style="margin-top: 5px; color: var(--accent-gold); font-weight: bold;">+420 603 306 035</p>
@@ -313,10 +335,7 @@ html_code = """
                     </ul>
                 </div>
                 <div class="project-visual">
-                    <div style="text-align:center; padding: 20px;">
-                        VIZUALIZACE PROJEKTU<br>
-                        <small>(Vyžádejte si u makléře)</small>
-                    </div>
+                    <img src="3D_dum.jpg" alt="Vizualizace domu">
                 </div>
             </div>
         </section>
@@ -384,22 +403,30 @@ html_code = """
 
         <section id="galerie">
             <h2>Fotogalerie</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 1</div><div class="gallery-label">Vizualizace domu</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 2</div><div class="gallery-label">Pohled na pozemek</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 3</div><div class="gallery-label">Zahrada</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 4</div><div class="gallery-label">Interiér - Obývací pokoj</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 5</div><div class="gallery-label">Interiér - Kuchyně</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 6</div><div class="gallery-label">Interiér - Ložnice</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 7</div><div class="gallery-label">Koupelna</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 8</div><div class="gallery-label">Půdorys 1.NP</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 9</div><div class="gallery-label">Půdorys 2.NP</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 10</div><div class="gallery-label">Okolí pozemku</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 11</div><div class="gallery-label">Příjezdová cesta</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 12</div><div class="gallery-label">Pohled z ulice</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 13</div><div class="gallery-label">Letecký pohled</div></div>
-                <div class="gallery-item"><div style="background:#eee; height:100%; display:flex; align-items:center; justify-content:center; color:#777; font-weight:bold;">FOTO 14</div><div class="gallery-label">Detail pozemku</div></div>
-            </div>
+           <div class="gallery-grid">
+                <div class="gallery-item"><img src="3D_dum.jpg" alt="Vizualizace"><div class="gallery-label">Vizualizace domu</div></div>
+                <div class="gallery-item"><img src="foto_3_a.png" alt="Pohled na pozemek"><div class="gallery-label">Pohled na pozemek</div></div>
+                <div class="gallery-item"><img src="foto_5_c.jpeg" alt="Pohled na pozemek s domem"><div class="gallery-label">Zahrada s domem</div></div>
+                <div class="gallery-item"><img src="foto_2.jpg" alt="Pozemek"><div class="gallery-label">Pozemek</div></div>
+                <div class="gallery-item"><img src="pohled_severní.jpg" alt="Sevrní pohled projektu"><div class="gallery-label">Sevrní pohled projektu</div></div>
+                <div class="gallery-item"><img src="pohled_vychodni.jpg" alt="Východní pohled projektu"><div class="gallery-label">Východní pohled projektu</div></div>
+                <div class="gallery-item"><img src="pohled_jižní.jpg" alt="Jížní pohled projektu"><div class="gallery-label">Jížní pohled projektu</div></div>
+                <div class="gallery-item"><img src="pohled_zapadni.jpg" alt="Západní pohled projektu"><div class="gallery-label">Západní pohled projektu</div></div>
+                <div class="gallery-item">
+                    <a href="pudorys_prizemi.jpg" target="_blank" style="display: block; width: 100%; height: 100%;">
+                        <img src="pudorys_prizemi.jpg" alt="Půdorys přízemí">
+                    </a>
+                    <div class="gallery-label">Půdorys přízemí</div>
+                </div>
+                <div class="gallery-item">
+                    <a href="pudorys_podkrovi.jpg" target="_blank" style="display: block; width: 100%; height: 100%;">
+                        <img src="pudorys_podkrovi.jpg" alt="Půdorys podkroví">
+                    </a>
+                    <div class="gallery-label">Půdorys podkroví</div>
+                </div>
+                <div class="gallery-item"><img src="foto_1_a.jpg" alt="Pozemek a okolí"><div class="gallery-label">Pozemek a okolí</div></div>
+                <div class="gallery-item"><img src="foto_3_b.png" alt="Letecký pohled"><div class="gallery-label">Letecký pohled</div></div>
+           </div>
         </section>
 
         <section id="kontakt" style="background-color: var(--primary-green); color: white; text-align: center;">
@@ -410,15 +437,15 @@ html_code = """
 
             <div style="background: white; padding: 40px; border-radius: 20px; display: inline-block; color: var(--text-dark); box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-width: 500px; width: 100%;">
 
-                <div style="width: 100px; height: 100px; background: #eee; border-radius: 50%; margin: 0 auto 20px auto; overflow: hidden; border: 3px solid var(--accent-gold);">
-                    <img src="makler.jpg" alt="Radomil Hrabě" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="width: 100px; height: 100px; background: #eee; border-radius: 25px; margin: 0 auto 20px auto; overflow: hidden; border: 3px solid var(--accent-gold);">
+                    <img src="makler.webp" alt="Radomil Hrabě" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
 
                 <h3 style="color: var(--primary-green); margin-bottom: 5px;">Radomil Hrabě</h3>
                 <p style="margin-bottom: 5px; font-weight: 600;">Soukromý realitní makléř</p>
                 <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Exkluzivní zastoupení</p>
 
-                <a href="tel:+420727928276" class="btn" style="width: 100%;">📞 +420 603 306 035</a>
+                <a href="tel:+420603306035" class="btn" style="width: 100%;">📞 +420 603 306 035</a>
 
                 <a href="mailto:radomil.hrabe@outlook.com?subject=Zájem%20o%20pozemek%20Středokluky" style="display: block; margin-top: 15px; color: #555; text-decoration: underline;">
                     Napsat e-mail (radomil.hrabe@outlook.com)
@@ -454,7 +481,27 @@ html_code = """
 </html>
 """
 
-# 4. Vykreslení kódu.
-components.html(html_code, height=900, scrolling=True)
+# 5. Seznam všech fotek, které jsou použity ve tvém HTML
+seznam_fotek = [
+    "pozemek-hero.jpg",
+    "3D_dum.jpg",
+    "foto_3_a.png",
+    "foto_5_c.jpeg",
+    "foto_2.jpg",
+    "pohled_severní.jpg",
+    "pohled_vychodni.jpg",
+    "pohled_jižní.jpg",
+    "pohled_zapadni.jpg",
+    "pudorys_prizemi.jpg",
+    "pudorys_podkrovi.jpg",
+    "foto_1_a.jpg",
+    "foto_3_b.png",
+    "makler.webp"
+]
 
+# 6. Chytrý Python trik: Projde HTML a všechny fotky převede do formátu pro Streamlit
+for fotka in seznam_fotek:
+    html_code = html_code.replace(fotka, nacti_fotku(fotka))
 
+# 7. Vykreslení celé stránky do Streamlitu
+components.html(html_code, height=1200, scrolling=True)
