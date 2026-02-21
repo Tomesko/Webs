@@ -67,7 +67,7 @@ html_code = """
         /* --- SKRYTÉ PRVKY PRO MOBILNÍ MENU --- */
         #menu-toggle { display: none; }
         .overlay { display: none; }
-        .mobile-header { display: none; } /* Zobrazí se jen na mobilu */
+        .mobile-header { display: none; } 
 
         /* --- LEVÝ PANEL (PC) --- */
         nav.sidebar {
@@ -164,20 +164,19 @@ html_code = """
         ul.features-list li strong { color: var(--primary-green); margin-right: 10px; }
 
         /* =========================================
-           MOBILNÍ VERZE - VÝSUVNÉ MENU S FIXNÍ LIŠTOU
+           MOBILNÍ VERZE
            ========================================= */
         @media (max-width: 900px) {
             body { 
                 flex-direction: column; 
-                padding-top: 60px; /* Vytvoří místo pro novou fixní lištu */
+                padding-top: 60px;
             }
             
-            /* --- NOVÁ FIXNÍ HORNÍ LIŠTA PRO MOBIL --- */
             .mobile-header {
                 display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 60px;
                 background-color: var(--primary-green);
                 align-items: center; justify-content: space-between;
-                padding: 0 20px; z-index: 2001; /* Drží se nahoře za všech okolností */
+                padding: 0 20px; z-index: 2001; 
                 box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             }
 
@@ -187,7 +186,6 @@ html_code = """
                 text-transform: uppercase;
             }
 
-            /* Tlačítko hamburger uvnitř lišty */
             .menu-toggle-btn {
                 display: block; cursor: pointer;
                 color: white; font-weight: bold; font-family: 'Montserrat', sans-serif;
@@ -197,18 +195,15 @@ html_code = """
             }
             .menu-toggle-btn:active { background: var(--accent-gold); color: #111; }
 
-            /* Boční panel se schová doleva mimo obrazovku */
             nav.sidebar {
-                width: 280px; left: -300px; /* Skryto */
+                width: 280px; left: -300px; 
                 transition: left 0.4s ease;
-                padding-top: 3rem; /* Odsazení zhora uvnitř panelu */
-                z-index: 2002; /* Musí být nad lištou, když vyjede */
+                padding-top: 3rem; 
+                z-index: 2002; 
             }
 
-            /* Vyjetí panelu */
             #menu-toggle:checked ~ nav.sidebar { left: 0; }
 
-            /* Ztmavení zbytku obrazovky */
             #menu-toggle:checked ~ .overlay {
                 display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
                 background: rgba(0,0,0,0.6); z-index: 2001; cursor: pointer;
@@ -223,7 +218,6 @@ html_code = """
             
             .contact-mini { display: block; margin-top: 2rem; }
 
-            /* Design obsahu pro mobil */
             header.hero { padding: 4rem 1.5rem; text-align: center; min-height: 50vh; align-items: center; }
             header.hero h1 { font-size: 2.2rem; }
             .hero-stats { margin-top: -30px; padding: 0 1.5rem; grid-template-columns: 1fr 1fr; gap: 15px; position: relative; z-index: 10; }
@@ -268,7 +262,10 @@ html_code = """
             <h4>Váš makléř</h4>
             <p>Radomil Hrabě</p>
             <small>Výhradní zastoupení</small>
-            <p style="margin-top: 5px; color: var(--accent-gold);">+420 603 306 035</p>
+            <p style="margin-top: 5px; color: var(--accent-gold); font-weight: bold;">+420 603 306 035</p>
+            <p style="margin-top: 5px; font-size: 0.8rem;">
+                <a href="mailto:radomil.hrabe@outlook.com?subject=Zájem%20o%20pozemek%20Středokluky" style="color: #eee; padding: 0; display: inline; font-weight: normal; text-decoration: underline;">radomil.hrabe@outlook.com</a>
+            </p>
         </div>
     </nav>
 
@@ -422,7 +419,10 @@ html_code = """
                 <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Výhradní zastoupení</p>
 
                 <a href="tel:+420603306035" class="btn" style="width: 100%;">📞 +420 603 306 035</a>
-                <a href="mailto:info@pozemek.cz" style="display: block; margin-top: 15px; color: #555; text-decoration: underline;">Napsat e-mail</a>
+                
+                <a href="mailto:radomil.hrabe@outlook.com?subject=Zájem%20o%20pozemek%20Středokluky" style="display: block; margin-top: 15px; color: #555; text-decoration: underline;">
+                    Napsat e-mail (radomil.hrabe@outlook.com)
+                </a>
             </div>
         </section>
 
@@ -431,22 +431,17 @@ html_code = """
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                // 1. Zabránit Streamlitu v refreshování stránky
                 e.preventDefault(); 
-                
-                // 2. Získat cíl odkazu
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                    // 3. Plynulý odjezd
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
                 }
 
-                // 4. Pokud jsme na mobilu a vyjelo menu, tak ho po kliknutí zavřeme
                 const menuToggle = document.getElementById('menu-toggle');
                 if (menuToggle && menuToggle.checked) {
                     menuToggle.checked = false;
@@ -461,3 +456,4 @@ html_code = """
 
 # 4. Vykreslení kódu.
 components.html(html_code, height=900, scrolling=True)
+
